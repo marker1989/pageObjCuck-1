@@ -1,20 +1,44 @@
 package pl.lait.Setup;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Init {
 	
 	
-	static FirefoxDriver driver;
+	//static FirefoxDriver driver;
+	static WebDriver driver;
 	
-	public static FirefoxDriver getDriver(){
+	public static WebDriver getDriver(){
 		
 		if(driver == null){
-			driver = new FirefoxDriver();
+			
+			URL hubUrl = null;
+			
+			try {
+				//po uruchomieniu huba i noda (java -jar seleniuserver...) ustawiamy jego adres IP (localhost - nasz komputer, wszystko na tej samej maszynie)
+				hubUrl = new URL("http://localhost:4444/wd/hub/"); 
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			// zmieniamy firefoxDriver na WebDriver więc trzeba też podać jakiej przeglądarki oczekujemy
+			DesiredCapabilities cap = DesiredCapabilities.firefox();
+			
+			//wyłączamy stary sposób i wskazujemy nowy - RemoteWebDriver - podająć w parametrach gdzie ma wołać po przeglądarkę i jaką
+			//driver = new FirefoxDriver();
+			driver = new RemoteWebDriver(hubUrl, cap);
+			
 			driver.get("http://newtours.demoaut.com");
+			
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			return driver;
 		}else{
