@@ -25,7 +25,7 @@ public class Init {
 			
 			try {
 				//po uruchomieniu huba i noda (java -jar seleniuserver...) ustawiamy jego adres IP (localhost - nasz komputer, wszystko na tej samej maszynie)
-				hubUrl = new URL("http://192.168.0.112:4444/wd/hub/"); 
+				hubUrl = new URL("http://192.168.0.119:4444/wd/hub/"); 
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
